@@ -1,0 +1,20 @@
+{
+  "name": "rock-on.space",
+  "version": "1.0.0",
+  "description": "Finding your next place to rock on",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nerdalize/rock-on.space.git"
+  },
+  "author": "Nerdalize Hack Battle Team",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/nerdalize/rock-on.space/issues"
+  },
+  "homepage": "https://github.com/nerdalize/rock-on.space#readme",
+  "private": true
+}
