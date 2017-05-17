@@ -1,0 +1,29 @@
+{{#if genre==='metal'}}
+	<Metal></Metal>
+{{elseif genre==='edm'}}
+	<Edm></Edm>
+{{elseif genre==='jazz'}}
+	<Jazz></Jazz>
+{{elseif genre==='pop'}}
+	<Pop></Pop>
+{{/if}}
+
+<script>
+
+	import Metal from './metal.svg'
+	import Edm from './edm.svg'
+	import Jazz from './jazz.svg'
+	import Pop from './pop.svg'
+
+	export default {
+
+		components: {
+			Metal,
+			Edm,
+			Jazz,
+			Pop
+		}
+
+	}
+
+</script>

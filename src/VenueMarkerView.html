@@ -1,0 +1,18 @@
+<div class="venue-marker" on:click='fire( "select", { } )'>
+	<VenueMarkerIcon genre="{{genre}}"></VenueMarkerIcon>
+</div>
+
+
+<script>
+
+	import VenueMarkerIcon from './VenueMarkerIconView.html'
+
+	export default {
+
+		components: {
+			VenueMarkerIcon
+		}
+
+	}
+
+</script>

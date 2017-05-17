@@ -1,0 +1,63 @@
+<div class="venue-detail">
+	<div class="text">
+		<h2>{{venue.name}}</h2>
+		<p>{{venue.description}}</p>
+		<h3>Recently played</h3>
+		<ul class="event-list">
+			{{#if venue.events && venue.events.length}}
+				{{#each venue.events as event}}
+					<li class="event-list-item">
+						<div class="thumbnail" style="background-image: url({{event.thumbnail}});"></div>
+						<span class="artist">{{event.artist}}</span>
+						<span class="song">{{event.song_name}}</span>
+					</li>
+				{{/each}}
+			{{else}}
+				—
+			{{/if}}
+		</ul>
+		<ul class="details">
+			<li class="detail loudness-detail">
+				{{#if venue.loudness == 1}}
+					<Volume1Icon></Volume1Icon>
+					<span class="label">The music is nice and quiet</span>
+				{{elseif venue.loudness == 2}}
+					<Volume2Icon></Volume2Icon>
+					<span class="label">The volume's perfect</span>
+				{{else}}
+					<Volume3Icon></Volume3Icon>
+					<span class="label">The music is quite loud</span>
+				{{/if}}
+		</ul>
+	</div>
+	<div class="image-container">
+		<div class="genre-container">
+			<span class="genre">{{venue.genre}}</span>
+			<VenueMarkerIcon genre="{{venue.genre}}"></VenueMarkerIcon>
+		</div>
+	</div>
+	<button class="directions-btn"><DirectionsIcon></DirectionsIcon></button>
+	<div class="close-btn"><CloseButton></CloseButton></div>
+</div>
+
+<script>
+
+	import Volume1Icon from './svg/volume-1.svg'
+	import Volume2Icon from './svg/volume-2.svg'
+	import Volume3Icon from './svg/volume-3.svg'
+	import DirectionsIcon from './svg/directions.svg'
+	import VenueMarkerIcon from './VenueMarkerIconView.html'
+
+	export default {
+
+		components: {
+			Volume1Icon,
+			Volume2Icon,
+			Volume3Icon,
+			DirectionsIcon,
+			VenueMarkerIcon
+		}
+
+	}
+
+</script>

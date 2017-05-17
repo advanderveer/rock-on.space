@@ -1,0 +1,104 @@
+<section class="venues-map">
+
+	<div class="map-overlay">
+
+		{{#if selected}}
+			<VenueDetailView venue={{selected}}></VenueDetailView>
+		{{/if}}
+
+	</div>
+
+	<div ref:map class="map"></div>
+
+</section>
+
+<script>
+	import mapboxgl from 'mapbox-gl'
+	import VenueMarkerView from './VenueMarkerView'
+	import VenueDetailView from './VenueDetailView'
+	mapboxgl.accessToken = 'pk.eyJ1IjoiYWxleGFuZGVyd2Vpc3MiLCJhIjoiY2loZzRpMndjMDA3MXVza3F3aDYzaHA5ZCJ9.0ZDVFBlRYkAYOiks2OTMCg'
+
+	export default {
+
+		data() {
+
+			return {
+				venues: [
+					{
+						name: 'Venue 1',
+						lat: 4.8790672,
+						lng: 52.3760597,
+						description: 'Boutique bar and a great location for small get-togethers, cocktail parties or just a nice drink after work.',
+						genre: 'metal',
+						loudness: 2,
+						environment: 'hot',
+						events: [
+							{ artist: 'Artist 1', song_name: 'Song 1' },
+							{ artist: 'Artist 2', song_name: 'Song 2' }
+						]
+					},
+					{
+						name: 'Venue 2',
+						lat: 4.8990672,
+						lng: 52.3760597,
+						genre: 'jazz'
+					}
+				],
+			}
+
+		},
+
+		components: {
+			VenueDetailView
+		},
+
+		oncreate() {
+
+			this.map = new mapboxgl.Map({
+				container: this.refs.map,
+				style: 'mapbox://styles/alexanderweiss/cj2st85ie00012spkmma46q7p',
+				attributionControl: false
+			})
+
+			this.map.on('touchstart', () => this.set({ selected: null }))
+			this.map.on('mousedown', () => this.set({ selected: null }))
+
+			this.observe('venues', this.updateMap)
+			this.observe('selected', this.onSelected)
+
+		},
+
+		methods: {
+
+			updateMap: function () {
+
+				this.markers = new Map()
+
+				for (let venue of this.get('venues')) {
+
+					let el = document.createElement('DIV')
+					let markerView = new VenueMarkerView({target: el, data: venue})
+					markerView.on('select', () => { this.set({ selected: venue }) })
+
+					let marker = new mapboxgl.Marker(el)
+						.setLngLat([venue.lat, venue.lng])
+						.addTo(this.map)
+
+					this.markers.set(venue, marker)
+
+				}
+
+			},
+
+			onSelected: function() {
+
+				let venue = this.get('selected')
+
+
+
+			}
+
+		}
+
+	}
+</script>

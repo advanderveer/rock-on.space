@@ -1,6 +1,6 @@
-import clock from "./clock.html"
+import VenuesMapView from "./VenuesMapView.html"
+import "./less/style.less"
 
-
-new clock({
+new VenuesMapView({
   target: document.querySelector('main')
 })

@@ -4,7 +4,7 @@
   "description": "Finding your next place to rock on",
   "main": "index.html",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --hot",
     "bundle": "webpack --display-error-details"
   },
   "devServer": {
@@ -22,16 +22,23 @@
   "homepage": "https://github.com/nerdalize/rock-on.space#readme",
   "private": true,
   "dependencies": {
+    "mapbox-gl": "^0.37.0",
     "svelte": "^1.20.2"
   },
   "devDependencies": {
-    "svelte-loader": "^2.0.1",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
     "babel-preset-es2015-native-modules": "^6.9.4",
     "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^0.28.1",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.3",
+    "style-loader": "^0.17.0",
+    "svelte-loader": "^2.0.1",
     "webpack": "^2.5.1",
     "webpack-dev-server": "^2.4.5",
+    "webpack-livereload-plugin": "^0.11.0",
     "yml-loader": "^2.0.1"
   }
 }
