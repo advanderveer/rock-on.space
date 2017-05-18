@@ -7,7 +7,7 @@
 			{{#if venue.events && venue.events.length}}
 				{{#each venue.events as event}}
 					<li class="event-list-item">
-						<div class="thumbnail" style="background-image: url({{event.thumbnail}});"></div>
+						<div class="thumbnail" style="background-image: url(/images/album/album-{{event.album_art}});"></div>
 						<span class="artist">{{event.data.artist}}</span>
 						<span class="song">{{event.data.song_name}}</span>
 					</li>
@@ -18,16 +18,26 @@
 		</ul>
 		<ul class="details">
 			<li class="detail loudness-detail">
-				{{#if venue.events[0].data.loudness == 1}}
+				{{#if venue.loudness == 1}}
 					<Volume1Icon></Volume1Icon>
 					<span class="label">The music is nice and quiet</span>
-				{{elseif venue.events[0].data.loudness == 2}}
+				{{elseif venue.loudness == 2}}
 					<Volume2Icon></Volume2Icon>
 					<span class="label">The volume's perfect</span>
 				{{else}}
 					<Volume3Icon></Volume3Icon>
 					<span class="label">The music is quite loud</span>
 				{{/if}}
+			</li>
+			<li class="detail atmosphere-detail">
+				{{#if venue.atmosphere}}
+					<span class="icon">{{venue.emoji}}</span>
+					<span class="label">{{venue.atmosphere}}</span>
+				{{else}}
+					<span class="icon">❓</span>
+					<span class="label">We don't have mood data</span>
+				{{/if}}
+			</li>
 		</ul>
 	</div>
 	<div class="image-container" style="background-image: url(/images/venue-{{venue.mock_number}}.jpg">
@@ -60,6 +70,10 @@
 	import VenueImage1 from './images/venue-1.jpg'
 	import VenueImage2 from './images/venue-2.jpg'
 	import VenueImage3 from './images/venue-3.jpg'
+	import Album1 from './images/album/album-1.jpg'
+	import Album2 from './images/album/album-2.jpg'
+	import Album3 from './images/album/album-3.jpg'
+	import Album4 from './images/album/album-4.jpg'
 
 	export default {
 

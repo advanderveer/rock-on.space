@@ -74,7 +74,9 @@
 			this.map = new mapboxgl.Map({
 				container: this.refs.map,
 				style: 'mapbox://styles/alexanderweiss/cj2st85ie00012spkmma46q7p',
-				attributionControl: false
+				attributionControl: false,
+				center: [4.862, 52.387],
+				zoom: 14
 			})
 
 			this.markers = new Map()
