@@ -7,7 +7,7 @@
 			{{#if venue.events && venue.events.length}}
 				{{#each venue.events as event}}
 					<li class="event-list-item">
-						<div class="thumbnail" style="background-image: url(/images/album/album-{{event.album_art}});"></div>
+						<div class="thumbnail" style="background-image: url(/images/album/album-{{event.data.album_art}}.jpg);"></div>
 						<span class="artist">{{event.data.artist}}</span>
 						<span class="song">{{event.data.song_name}}</span>
 					</li>
