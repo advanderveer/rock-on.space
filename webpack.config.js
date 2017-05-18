@@ -45,6 +45,11 @@ module.exports = {
 				test: /\.(svg|html|svelte)$/,
 				exclude: /node_modules/,
 				use: 'svelte-loader'
+			},
+			{
+				test: /\.(jpg)$/,
+				exclude: /node_modules/,
+				use: 'file-loader?name=[path][name].[ext]&context=src'
 			}]
 	},
 	plugins: [

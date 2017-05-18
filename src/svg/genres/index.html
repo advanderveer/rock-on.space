@@ -6,6 +6,10 @@
 	<Jazz></Jazz>
 {{elseif genre==='pop'}}
 	<Pop></Pop>
+{{elseif genre==='hip-hop'}}
+	<HipHop></HipHop>
+{{elseif genre==='indie'}}
+	<Indie></Indie>
 {{/if}}
 
 <script>
@@ -14,6 +18,8 @@
 	import Edm from './edm.svg'
 	import Jazz from './jazz.svg'
 	import Pop from './pop.svg'
+	import HipHop from './hip-hop.svg'
+	import Indie from './Indie.svg'
 
 	export default {
 
@@ -21,7 +27,9 @@
 			Metal,
 			Edm,
 			Jazz,
-			Pop
+			Pop,
+			HipHop,
+			Indie
 		}
 
 	}

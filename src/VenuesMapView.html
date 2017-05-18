@@ -3,7 +3,7 @@
 	<div class="map-overlay">
 
 		{{#if selected}}
-			<VenueDetailView venue={{selected}}></VenueDetailView>
+			<VenueDetailView ref:venueDetailView venue={{selected}}></VenueDetailView>
 		{{/if}}
 
 	</div>
@@ -24,7 +24,12 @@
 		const poller = window.setInterval(() => {
 			fetch(uri)
 			.then(res => res.json())
+			.then((r) => {
+				console.log(r)
+				return r
+			})
 			.then(callback)
+			.catch(console.error.bind(console))
 		}, 1000)
 
 		return () => {
@@ -104,14 +109,39 @@
 			updateMap: function () {
 
 				let venues = this.get('venues')
+				let selected = this.get('selected')
 
 				if (!venues) return
 
+				let i = 1
+
 				for (let venue of venues) {
 
-					if (!Array.from(this.markers.keys()).every(a => a.device_id != venue.device_id)) continue
+					let _venue = this.markers.get(venue.device_id)
+
+					if (_venue) {
+
+						let old = _venue[0]
+
+						_venue[0] = venue
+						venue.friends = old.friends
+						venue.mock_number = old.mock_number
+
+						if (selected && selected.device_id == old.device_id) {
+
+							this.refs.venueDetailView.set({ venue })
+
+						}
+
+						continue
+
+					}
 
 					if (!venue.events || venue.events.length === 0) venue.events = [{}]
+
+					venue.friends = Math.round(Math.random() * 20)
+					venue.mock_number = i
+					i = i < 3 ? i + 1 : 1
 
 					let el = document.createElement('DIV')
 					let markerView = new VenueMarkerView({ target: el, data: venue })
@@ -121,7 +151,7 @@
 						.setLngLat([venue.lat, venue.lng])
 						.addTo(this.map)
 
-					this.markers.set(venue, [marker, markerView])
+					this.markers.set(venue.device_id, [venue, marker, markerView])
 
 				}
 
@@ -133,7 +163,7 @@
 
 				if (venue) {
 
-					let [marker, markerView] = this.markers.get(venue)
+					let [_venue, marker, markerView] = this.markers.get(venue.device_id)
 
 					this.map.easeTo({ center: marker.getLngLat(), duration: 100 })
 					//markerView.set('selected', true)
