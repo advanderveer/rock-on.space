@@ -11,6 +11,13 @@
 	background: fade(white, 74%);
 
 	border-radius: 14px;
+	box-shadow: 0 4px 50px 0 rgba(0,0,0,0.23), 0 8px 34px 0 rgba(0,0,0,0.17);
+
+	animation-name: venue-detail-in;
+	animation-duration: 0.4s;
+	animation-timing-function: cubic-bezier(.17,.67,.76,1.15);
+
+	transform-origin: center;
 
 	h2 {
 
@@ -39,6 +46,50 @@
 			margin: 8px 0;
 
 		}
+
+	}
+
+	.close-btn {
+
+		position: absolute;
+		top: 10px;
+		left: calc(50% ~"-" 13px);
+
+		> svg {
+
+			display: block;
+
+		}
+
+	}
+
+}
+
+@keyframes venue-detail-in {
+
+	from {
+
+		transform: scale(0, 0);
+		opacity: 0;
+
+	}
+
+	50% {
+
+		transform: scale(1, 0.4);
+
+	}
+
+	90% {
+
+		transform: scale(1, 1);
+
+	}
+
+	to {
+
+
+		opacity: 1;
 
 	}
 
@@ -157,6 +208,63 @@
 
 }
 
+.friends-container {
+
+	display: flex;
+	flex-direction: horizontal;
+	align-items: center;
+
+	position: absolute;
+	bottom: -18px;
+	right: 17px;
+
+}
+
+.friends {
+
+	display: flex;
+	align-items: center;
+
+	height: 36px;
+
+	padding: 0 14px;
+
+	background: fade(white, 90%);
+	-webkit-backdrop-filter: blur(9px);
+
+	border-radius: 18px;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.32), 0 2px 6px 0 rgba(0,0,0,0.05);
+
+	> span {
+
+		margin-left: 8px;
+
+	}
+
+}
+
+.message-btn {
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	position: relative;
+	z-index: 1;
+
+	width: 44px;
+	height: 44px;
+
+	margin-left: -6px;
+
+	background-image: linear-gradient(-180deg, #ABE73B 0%, #3BD62C 100%);
+
+	border: none;
+	border-radius: 100%;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.32), 0 2px 6px 0 rgba(0,0,0,0.05);
+
+}
+
 .image-container {
 
 	position: relative;
@@ -183,7 +291,7 @@
 	text-transform: capitalize;
 	text-align: center;
 
-	background: fade(white, 91%);
+	background: fade(white, 90%);
 	-webkit-backdrop-filter: blur(9px);
 
 	border-radius: 35px;

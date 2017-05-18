@@ -16,11 +16,26 @@
 	import mapboxgl from 'mapbox-gl'
 	import VenueMarkerView from './VenueMarkerView'
 	import VenueDetailView from './VenueDetailView'
+	import LocationMarkerView from './svg/location-marker'
 	mapboxgl.accessToken = 'pk.eyJ1IjoiYWxleGFuZGVyd2Vpc3MiLCJhIjoiY2loZzRpMndjMDA3MXVza3F3aDYzaHA5ZCJ9.0ZDVFBlRYkAYOiks2OTMCg'
+
+	function registerOnApi(uri, callback) {
+
+		const poller = window.setInterval(() => {
+			fetch(uri)
+			.then(res => res.json())
+			.then(callback)
+		}, 1000)
+
+		return () => {
+			clearInterval(poller)
+		}
+
+	}
 
 	export default {
 
-		data() {
+		/*data() {
 
 			return {
 				venues: [
@@ -29,11 +44,8 @@
 						lat: 4.8790672,
 						lng: 52.3760597,
 						description: 'Boutique bar and a great location for small get-togethers, cocktail parties or just a nice drink after work.',
-						genre: 'metal',
-						loudness: 2,
-						environment: 'hot',
 						events: [
-							{ artist: 'Artist 1', song_name: 'Song 1' },
+							{ artist: 'Artist 1', song_name: 'Song 1', genre: 'metal', loudness: 2, environment: 'hot' },
 							{ artist: 'Artist 2', song_name: 'Song 2' }
 						]
 					},
@@ -46,7 +58,7 @@
 				],
 			}
 
-		},
+		},*/
 
 		components: {
 			VenueDetailView
@@ -60,11 +72,30 @@
 				attributionControl: false
 			})
 
+			this.markers = new Map()
+
+			let locationMarkerEl = document.createElement('DIV')
+			locationMarkerEl.className = 'location-marker'
+			this.locationMarkerView = new LocationMarkerView({ target: locationMarkerEl })
+			this.locationMarker = new mapboxgl.Marker(locationMarkerEl, { offset: { x: -65, y: -65 } })
+				.setLngLat([0, 0])
+				.addTo(this.map)
+
+			this.locationWatcher = navigator.geolocation.watchPosition(this.updatePosition.bind(this), console.error.bind(this), { enableHighAccuracy: true })
+
 			this.map.on('touchstart', () => this.set({ selected: null }))
 			this.map.on('mousedown', () => this.set({ selected: null }))
 
 			this.observe('venues', this.updateMap)
 			this.observe('selected', this.onSelected)
+
+			this.poller = registerOnApi('https://api.rock-on.space/venues', (venues) => this.set({ venues }) )
+
+		},
+
+		ondestroy() {
+
+			this.poller()
 
 		},
 
@@ -72,19 +103,25 @@
 
 			updateMap: function () {
 
-				this.markers = new Map()
+				let venues = this.get('venues')
 
-				for (let venue of this.get('venues')) {
+				if (!venues) return
+
+				for (let venue of venues) {
+
+					if (!Array.from(this.markers.keys()).every(a => a.device_id != venue.device_id)) continue
+
+					if (!venue.events || venue.events.length === 0) venue.events = [{}]
 
 					let el = document.createElement('DIV')
-					let markerView = new VenueMarkerView({target: el, data: venue})
+					let markerView = new VenueMarkerView({ target: el, data: venue })
 					markerView.on('select', () => { this.set({ selected: venue }) })
 
-					let marker = new mapboxgl.Marker(el)
+					let marker = new mapboxgl.Marker(el, { offset: { x: -25, y: -25} })
 						.setLngLat([venue.lat, venue.lng])
 						.addTo(this.map)
 
-					this.markers.set(venue, marker)
+					this.markers.set(venue, [marker, markerView])
 
 				}
 
@@ -94,7 +131,35 @@
 
 				let venue = this.get('selected')
 
+				if (venue) {
 
+					let [marker, markerView] = this.markers.get(venue)
+
+					this.map.easeTo({ center: marker.getLngLat(), duration: 100 })
+					//markerView.set('selected', true)
+
+				} else {
+
+
+
+				}
+
+			},
+
+			updatePosition: function(pos) {
+
+				console.log('pos')
+
+				let venue = this.get('selected')
+				let location = [pos.coords.longitude, pos.coords.latitude]
+
+				this.locationMarker.setLngLat(location)
+
+				if (!venue) {
+
+					this.map.easeTo({ center: location, duration: 100 })
+
+				}
 
 			}
 

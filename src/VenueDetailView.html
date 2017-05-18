@@ -8,8 +8,8 @@
 				{{#each venue.events as event}}
 					<li class="event-list-item">
 						<div class="thumbnail" style="background-image: url({{event.thumbnail}});"></div>
-						<span class="artist">{{event.artist}}</span>
-						<span class="song">{{event.song_name}}</span>
+						<span class="artist">{{event.data.artist}}</span>
+						<span class="song">{{event.data.song_name}}</span>
 					</li>
 				{{/each}}
 			{{else}}
@@ -18,10 +18,10 @@
 		</ul>
 		<ul class="details">
 			<li class="detail loudness-detail">
-				{{#if venue.loudness == 1}}
+				{{#if venue.events[0].data.loudness == 1}}
 					<Volume1Icon></Volume1Icon>
 					<span class="label">The music is nice and quiet</span>
-				{{elseif venue.loudness == 2}}
+				{{elseif venue.events[0].data.loudness == 2}}
 					<Volume2Icon></Volume2Icon>
 					<span class="label">The volume's perfect</span>
 				{{else}}
@@ -32,11 +32,18 @@
 	</div>
 	<div class="image-container">
 		<div class="genre-container">
-			<span class="genre">{{venue.genre}}</span>
+			<span class="genre">{{venue.events[0].data.genre}}</span>
 			<VenueMarkerIcon genre="{{venue.genre}}"></VenueMarkerIcon>
 		</div>
 	</div>
 	<button class="directions-btn"><DirectionsIcon></DirectionsIcon></button>
+	<div class="friends-container">
+		<div class="friends">
+			<LikesIcon></LikesIcon>
+			<span>{{friends}} friends</span>
+		</div>
+		<button class="message-btn"><MessageIcon></MessageIcon></button>
+	</div>
 	<div class="close-btn"><CloseButton></CloseButton></div>
 </div>
 
@@ -47,6 +54,9 @@
 	import Volume3Icon from './svg/volume-3.svg'
 	import DirectionsIcon from './svg/directions.svg'
 	import VenueMarkerIcon from './VenueMarkerIconView.html'
+	import CloseButton from './svg/close-btn.svg'
+	import LikesIcon from './svg/likes.svg'
+	import MessageIcon from './svg/message.svg'
 
 	export default {
 
@@ -55,8 +65,19 @@
 			Volume2Icon,
 			Volume3Icon,
 			DirectionsIcon,
-			VenueMarkerIcon
-		}
+			VenueMarkerIcon,
+			CloseButton,
+			LikesIcon,
+			MessageIcon
+		},
+
+		data() {
+
+			return {
+				friends: Math.round(Math.random() * 20)
+			}
+
+		},
 
 	}
 
